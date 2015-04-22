@@ -3,7 +3,6 @@ Vizify.init({library: "google", type: "timeline"});
 parse({selector: "table", nameIndex: [0,1], startIndex: 2, endIndex: 3}, function (options) {
     Vizify.load(options)
 });
-
 function parse(options, callback) {
     document.addEventListener("DOMContentLoaded", function () { // ensure page loads so selectors have something
         var selector = options.selector;
@@ -11,6 +10,7 @@ function parse(options, callback) {
         var startIndex = options.startIndex;
         var endIndex = options.endIndex;
         var tables = document.querySelectorAll(selector);
+        console.log(nameIndex);
         console.log(tables)
         for (var t = 0; t < tables.length; t++) {
             var rows = [];
@@ -25,9 +25,9 @@ function parse(options, callback) {
                 var trs = table.querySelectorAll("tr");
                 for (var i = 1; i < trs.length; i++) {
                     var tds = trs[i].querySelectorAll("td div div span");
-                    var title = tds[nameIndex].innerText;
+                    var title = "";
                     for (var j = 0; j < nameIndex.length; j++) {
-                        title += nameIndex[j] + "-";
+                        title += tds[j].innerText + "-";
                     }
                     title.substr(0,title.length -1);
                     var startDate = tds[startIndex].innerText.split('\/');
