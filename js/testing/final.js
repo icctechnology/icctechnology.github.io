@@ -15,7 +15,7 @@ function parse(options, callback) {
             var table = tables[t];
             if (table.querySelector(".testTable")) {
                 var elt = document.createElement("div");
-                elt.style.width = "70%";
+                elt.style.width = "60%";
                 elt.style.height = "300px";
                 elt.style.float = "right";
                 elt.id = "vizDiv" + t;
