@@ -10,8 +10,6 @@ function parse(options, callback) {
         var startIndex = options.startIndex;
         var endIndex = options.endIndex;
         var tables = document.querySelectorAll(selector);
-        console.log(nameIndex);
-        console.log(tables)
         for (var t = 0; t < tables.length; t++) {
             var rows = [];
             var table = tables[t];
