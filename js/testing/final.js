@@ -1,6 +1,6 @@
 //var vizify = new Vizify();
 Vizify.init({library: "google", type: "timeline"});
-parse({selector: "table", nameIndex: 0, startIndex: 2, endIndex: 3}, function (options) {
+parse({selector: "table", nameIndex: [0,1], startIndex: 2, endIndex: 3}, function (options) {
     Vizify.load(options)
 });
 
@@ -23,10 +23,13 @@ function parse(options, callback) {
                 elt.id = "vizDiv" + t;
                 insertAfter(table, elt);
                 var trs = table.querySelectorAll("tr");
-
                 for (var i = 1; i < trs.length; i++) {
                     var tds = trs[i].querySelectorAll("td div div span");
                     var title = tds[nameIndex].innerText;
+                    for (var j = 0; j < nameIndex.length; j++) {
+                        title += nameIndex[j] + "-";
+                    }
+                    title.substr(0,title.length -1);
                     var startDate = tds[startIndex].innerText.split('\/');
                     var endDate = tds[endIndex].innerText.split('\/');
                     var row = [
