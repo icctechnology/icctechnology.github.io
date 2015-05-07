@@ -41,8 +41,6 @@ var Vizify = {
     },
 
     load: function (options) {
-        this.makeSameDayEventTwoDayEvent(options);
-        this.setDataToMinStartDate(options);
         this.colors = options.colors;
         this.data.push(options.data);
         this.hooks.push(options.hook);
@@ -94,24 +92,5 @@ renderGoogleTimeline: function (d, h) {
 
         chart.draw(dataTable, options);
     }
-},
-setDataToMinStartDate: function(options){
-    if(options.minStartDate){
-        var row = [
-        options.data.columnName,
-        options.minStartDate,
-        options.minStartDate
-        ];
-        options.data.rows.unshift(row);
-    }
-},
-
-makeSameDayEventTwoDayEvent: function (options) {
-	for (i = 0; i < options.data.rows.length; i++){
-		if (options.data.rows[i][1].getTime() === options.data.rows[i][2].getTime()) {
-        	options.data.rows[i][2].setDate(options.data.rows[i][2].getDate() + 1);
-    	}
-  	}
 }
-
 };

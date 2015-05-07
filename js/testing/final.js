@@ -14,11 +14,8 @@ function parse(options, callback) {
         var tables = document.querySelectorAll(selector);
         var minStartDate = null;
         var vizifyMinStartDate = document.querySelector(".vizifyMinStartDate");
-        if(vizifyMinStartDate){
-            var startDate = vizifyMinStartDate.innerText.split('\/');
-            minStartDate = new Date(startDate[2], startDate[0], startDate[1]);
-        }
-        var colors = ["#fff", "red", "orange", "blue", "green"];
+
+        var colors = ["#fff", "#F19141", "#85E052", "#009999", "#BF41F1", "#CCFF33", "#CAD55D", "#E34FAE", "#5DCFD5", "#78BA7E", "#BF8B73"];
         for (var t = 0; t < tables.length; t++) {
             var rows = [];
             var table = tables[t];
@@ -38,24 +35,43 @@ function parse(options, callback) {
                     for (var j = 0; j < nameIndex.length; j++) {
                         title += tds[j].innerText;
                         if(j < nameIndex.length - 1)
-                           title+= "-";
-                   }
-                   title.substr(0,title.length -1);
-                   var startDate = tds[startIndex].innerText.split('\/');
-                   var endDate = tds[endIndex].innerText.split('\/');
-                   var row = [
-                   title,
-                   new Date(startDate[2], startDate[0], startDate[1]),
-                   new Date(endDate[2], endDate[0], endDate[1])
-                   ];
-                   rows.push(row);
-               }
-               var data = {
+                         title+= "-";
+                 }
+                 title.substr(0,title.length -1);
+                 var startDateString = tds[startIndex].innerText.split('\/');
+                 var endDateString = tds[endIndex].innerText.split('\/');
+
+                 var startDate = new Date(startDateString[2], startDateString[0], startDateString[1]);
+                 var endDate = new Date(endDateString[2], endDateString[0], endDateString[1]);
+                 if(startDate.getDate() === endDate.getDate()){
+                    endDate.setDate(endDate.getDate() + 1);
+                }
+
+                var row = [
+                title,
+                startDate,
+                endDate
+                ];
+                rows.push(row);
+            }
+            if(vizifyMinStartDate){
+                var startDate = vizifyMinStartDate.innerText.split('\/');
+                minStartDate = new Date(startDate[2], startDate[0], startDate[1]);
+                
+                var row = [
+                trs[0].children[0].innerText,
+                minStartDate, 
+                new Date()
+                ];
+                
+                rows.unshift(row);
+            }
+            var data = {
                 columnName: trs[0].children[0].innerText,
                 rows: rows
             };
 
-            callback({data: data, hook: "#vizDiv" + t, minStartDate: minStartDate, colors: colors});
+            callback({data: data, hook: "#vizDiv" + t, colors: colors});
         }
     }
 });
