@@ -28,8 +28,16 @@ var Vizify = {
     },
 
     googleLoadedEvent: function () {
-        var event = new Event('googleLoaded');
-        document.dispatchEvent(event); // when google loads
+        var emptyDetails = { foo: 'bar', _exposedProps_: {foo: 'r'}};
+        var googleEvent;
+        if(typeof Event == 'function'){
+            googleEvent = new Event('googleLoaded');
+        }
+        else{ //IE only
+            var googleEvent= document.createEvent('CustomEvent');
+            googleEvent.initCustomEvent("googleLoaded", false, false, emptyDetails);
+        }
+        document.dispatchEvent(googleEvent);
     },
 
     googleLoadedSubscribe: function () {

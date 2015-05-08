@@ -1,4 +1,3 @@
-//var vizify = new Vizify();
 Vizify.init({library: "google", type: "timeline"});
 
 parse({selector: "table", nameIndex: [0,1], startIndex: 2, endIndex: 3}, function (options) {
@@ -33,13 +32,13 @@ function parse(options, callback) {
                     var tds = trs[i].querySelectorAll("td div div span");
                     var title = "";
                     for (var j = 0; j < nameIndex.length; j++) {
-                        title += tds[j].innerText;
+                        title += tds[j].textContent;
                         if(j < nameIndex.length - 1)
                          title+= "-";
                  }
                  title.substr(0,title.length -1);
-                 var startDateString = tds[startIndex].innerText.split('\/');
-                 var endDateString = tds[endIndex].innerText.split('\/');
+                 var startDateString = tds[startIndex].textContent.split('\/');
+                 var endDateString = tds[endIndex].textContent.split('\/');
 
                  var startDate = new Date(startDateString[2], startDateString[0], startDateString[1]);
                  var endDate = new Date(endDateString[2], endDateString[0], endDateString[1]);
@@ -55,11 +54,11 @@ function parse(options, callback) {
                 rows.push(row);
             }
             if(vizifyMinStartDate){
-                var startDate = vizifyMinStartDate.innerText.split('\/');
+                var startDate = vizifyMinStartDate.textContent.split('\/');
                 minStartDate = new Date(startDate[2], startDate[0], startDate[1]);
                 
                 var row = [
-                trs[0].children[0].innerText,
+                trs[0].children[0].textContent,
                 minStartDate, 
                 new Date()
                 ];
@@ -67,11 +66,15 @@ function parse(options, callback) {
                 rows.unshift(row);
             }
             var data = {
-                columnName: trs[0].children[0].innerText,
+                columnName: trs[0].children[0].textContent,
                 rows: rows
             };
-
-            callback({data: data, hook: "#vizDiv" + t, colors: colors});
+            var charOptions = {
+                data: data,
+                hook: "#vizDiv" + t,
+                colors: colors
+            }
+            callback(charOptions);
         }
     }
 });
