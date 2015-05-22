@@ -1,3 +1,4 @@
+//This is a test
 Vizify.init({library: "google", type: "timeline"});
 
 parse({selector: "table", nameIndex: [0,1], startIndex: 2, endIndex: 3}, function (options) {
