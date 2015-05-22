@@ -40,8 +40,7 @@ function parse(options, callback) {
                              title+= "-";
                      }
                 }
-                catch(err)
-                {
+                catch(err){
                     continue;
                 }
                  title.substr(0,title.length -1);
