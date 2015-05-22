@@ -1,4 +1,4 @@
-//v1
+//v2
 Vizify.init({library: "google", type: "timeline"});
 
 parse({selector: "table", nameIndex: [0,1], startIndex: 2, endIndex: 3}, function (options) {
@@ -33,32 +33,28 @@ function parse(options, callback) {
                     for (var i = 1; i < trs.length; i++) {
                         var tds = trs[i].querySelectorAll("td div div span");
                         var title = "";
-                            for (var j = 0; j < nameIndex.length; j++) {
-                                title += tds[j].textContent;
-                                if(j < nameIndex.length - 1)
-                                 title+= "-";
-                         }
-                     title.substr(0,title.length -1);
-                     var startDateString = tds[startIndex].textContent.split('\/');
-                     var endDateString = tds[endIndex].textContent.split('\/');
-    
-                     var startDate = new Date(startDateString[2], startDateString[0], startDateString[1]);
-                     var endDate = new Date(endDateString[2], endDateString[0], endDateString[1]);
-                     if(startDate.getDate() === endDate.getDate()){
-                        endDate.setDate(endDate.getDate() + 1);
+                        for (var j = 0; j < nameIndex.length; j++) {
+                            title += tds[j].textContent;
+                            if(j < nameIndex.length - 1)
+                             title+= "-";
+                        }
+                        title.substr(0,title.length -1);
+                        var startDateString = tds[startIndex].textContent.split('\/');
+                        var endDateString = tds[endIndex].textContent.split('\/');
+
+                        var startDate = new Date(startDateString[2], startDateString[0], startDateString[1]);
+                        var endDate = new Date(endDateString[2], endDateString[0], endDateString[1]);
+                        if(startDate.getDate() === endDate.getDate()){
+                            endDate.setDate(endDate.getDate() + 1);
+                        }
+
+                        var row = [title,startDate,endDate];
+                        rows.push(row);
                     }
                 }
                 catch(err) {
                     continue;
                 }
-                }
-                var row = [
-                title,
-                startDate,
-                endDate
-                ];
-                rows.push(row);
-            }
             if(vizifyMinStartDate){
                 var startDate = vizifyMinStartDate.textContent.split('\/');
                 minStartDate = new Date(startDate[2], startDate[0], startDate[1]);
