@@ -1,3 +1,4 @@
+//v1
 Vizify.init({library: "google", type: "timeline"});
 
 parse({selector: "table", nameIndex: [0,1], startIndex: 2, endIndex: 3}, function (options) {
@@ -28,24 +29,29 @@ function parse(options, callback) {
                 elt.id = "vizDiv" + t;
                 insertAfter(table, elt);
                 var trs = table.querySelectorAll("tr");
-                for (var i = 1; i < trs.length; i++) {
-                    var tds = trs[i].querySelectorAll("td div div span");
-                    var title = "";
-                    for (var j = 0; j < nameIndex.length; j++) {
-                        title += tds[j].textContent;
-                        if(j < nameIndex.length - 1)
-                         title+= "-";
-                 }
-                 title.substr(0,title.length -1);
-                 var startDateString = tds[startIndex].textContent.split('\/');
-                 var endDateString = tds[endIndex].textContent.split('\/');
-
-                 var startDate = new Date(startDateString[2], startDateString[0], startDateString[1]);
-                 var endDate = new Date(endDateString[2], endDateString[0], endDateString[1]);
-                 if(startDate.getDate() === endDate.getDate()){
-                    endDate.setDate(endDate.getDate() + 1);
+                try {
+                    for (var i = 1; i < trs.length; i++) {
+                        var tds = trs[i].querySelectorAll("td div div span");
+                        var title = "";
+                            for (var j = 0; j < nameIndex.length; j++) {
+                                title += tds[j].textContent;
+                                if(j < nameIndex.length - 1)
+                                 title+= "-";
+                         }
+                     title.substr(0,title.length -1);
+                     var startDateString = tds[startIndex].textContent.split('\/');
+                     var endDateString = tds[endIndex].textContent.split('\/');
+    
+                     var startDate = new Date(startDateString[2], startDateString[0], startDateString[1]);
+                     var endDate = new Date(endDateString[2], endDateString[0], endDateString[1]);
+                     if(startDate.getDate() === endDate.getDate()){
+                        endDate.setDate(endDate.getDate() + 1);
+                    }
                 }
-
+                catch(err) {
+                    continue;
+                }
+                }
                 var row = [
                 title,
                 startDate,
