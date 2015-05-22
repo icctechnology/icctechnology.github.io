@@ -40,9 +40,6 @@ function parse(options, callback) {
                              title+= "-";
                      }
                 }
-                catch(err){
-                    continue;
-                }
                  title.substr(0,title.length -1);
                  var startDateString = tds[startIndex].textContent.split('\/');
                  var endDateString = tds[endIndex].textContent.split('\/');
@@ -52,7 +49,10 @@ function parse(options, callback) {
                  if(startDate.getDate() === endDate.getDate()){
                     endDate.setDate(endDate.getDate() + 1);
                 }
-
+                catch(err){
+                    continue;
+                }
+                
                 var row = [
                 title,
                 startDate,
