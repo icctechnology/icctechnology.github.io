@@ -17,6 +17,7 @@ function parse(options, callback) {
 
         var colors = ["#fff", "#F19141", "#85E052", "#009999", "#BF41F1", "#CCFF33", "#CAD55D", "#E34FAE", "#5DCFD5", "#78BA7E", "#BF8B73"];
         for (var t = 0; t < tables.length; t++) {
+            if (t === 4) {continue;}
             var rows = [];
             var table = tables[t];
             
