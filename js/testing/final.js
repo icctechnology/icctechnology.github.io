@@ -17,7 +17,7 @@ function parse(options, callback) {
 
         var colors = ["#fff", "#F19141", "#85E052", "#009999", "#BF41F1", "#CCFF33", "#CAD55D", "#E34FAE", "#5DCFD5", "#78BA7E", "#BF8B73"];
         for (var t = 0; t < tables.length; t++) {
-            if (t === 4) {continue;}
+            
             var rows = [];
             var table = tables[t];
             
@@ -30,14 +30,20 @@ function parse(options, callback) {
                 elt.id = "vizDiv" + t;
                 insertAfter(table, elt);
                 var trs = table.querySelectorAll("tr");
-                for (var i = 1; i < trs.length; i++) {
-                    var tds = trs[i].querySelectorAll("td div div span");
-                    var title = "";
-                    for (var j = 0; j < nameIndex.length; j++) {
-                        title += tds[j].textContent;
-                        if(j < nameIndex.length - 1)
-                         title+= "-";
-                 }
+                try{
+                    for (var i = 1; i < trs.length; i++) {
+                        var tds = trs[i].querySelectorAll("td div div span");
+                        var title = "";
+                        for (var j = 0; j < nameIndex.length; j++) {
+                            title += tds[j].textContent;
+                            if(j < nameIndex.length - 1)
+                             title+= "-";
+                     }
+                }
+                catch(err)
+                {
+                    continue;
+                }
                  title.substr(0,title.length -1);
                  var startDateString = tds[startIndex].textContent.split('\/');
                  var endDateString = tds[endIndex].textContent.split('\/');
